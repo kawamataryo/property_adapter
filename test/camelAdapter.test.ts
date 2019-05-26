@@ -5,6 +5,11 @@ type SnakeCase = {
   property_string: string
   property_int: number
   property_boolean: boolean
+  property_object: {
+    inner_property_string: string,
+    inner_property_int: number,
+    inner_property_boolean: boolean,
+  }
 }
 
 type CamelCase = {
@@ -12,6 +17,11 @@ type CamelCase = {
   propertyString: string
   propertyInt: number
   propertyBoolean: boolean
+  propertyObject: {
+    innerPropertyString: string,
+    innerPropertyInt: number,
+    innerPropertyBoolean: boolean,
+  }
 }
 
 describe('CamelConverter', () => {
@@ -23,12 +33,33 @@ describe('CamelConverter', () => {
         property_string: 'string',
         property_int: 1,
         property_boolean: false,
+        property_object: {
+          inner_property_string: 'string',
+          inner_property_int: 1,
+          inner_property_boolean: false,
+        }
       };
-      expect(CamelConverter.convert<CamelCase>(snakeCase)).toStrictEqual({
+      expect(CamelConverter.convert(snakeCase)).toStrictEqual({
         id: 1,
         propertyString: 'string',
         propertyInt: 1,
         propertyBoolean: false,
+        propertyObject: {
+          innerPropertyString: 'string',
+          innerPropertyInt: 1,
+          innerPropertyBoolean: false,
+        }
+      })
+    });
+
+    test('string型の値がnullの場合空文字で初期化する', () => {
+      const snakeCase = {
+        property_string: 'string',
+        property_string_null: null,
+      };
+      expect(CamelConverter.convert(snakeCase)).toStrictEqual({
+        propertyString: 'string',
+        propertyStringNull: null,
       })
     });
   })
@@ -39,6 +70,4 @@ describe('CamelConverter', () => {
       expect(CamelConverter.toCamel('snake_case_daze')).toBe('snakeCaseDaze')
     })
   })
-
-
 })
