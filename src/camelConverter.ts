@@ -23,7 +23,6 @@ class CamelConverter {
       return match.toUpperCase()
     });
   };
-
 }
 
 export default CamelConverter
